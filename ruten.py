@@ -5,20 +5,19 @@ class MyHTMLParser(HTMLParser):
     def __init__(self):
         HTMLParser.__init__(self)
         self.a_flag=True
+        self.elements = []
     def handle_starttag(self, tag, attrs):
-        if tag == 'a' and attrs:
-            print(attrs)
+        if tag == 'h5' and attrs[0][1] == 'prod_name':
             self.a_flag = True
-    # def handle_data(self, data):
-    #     if self.a_flag:
-    #         print(data)
-    #         self.titles.append(data)
-    # def handle_endtag(self, tag):
-    #     if tag == 'a':
-    #         self.a_flag = False
+    def handle_data(self, data):
+        if self.a_flag:
+            self.elements.append(data)
+    def handle_endtag(self, tag):
+        if tag == 'h5':
+            self.a_flag = False
 
-# keyword = input("Please enter a search term.\n")
-keyword = "iphone"
+keyword = input("Please enter a search term.\n")
+# keyword = "iphone"
 url = "https://find.ruten.com.tw/s/?q=" + keyword
 
 data = {'kw':keyword}
